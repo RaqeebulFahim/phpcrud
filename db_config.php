@@ -1,6 +1,6 @@
-<?php 
+<?php
 
-$db= new mysqli('localhost', 'root', '', 'phpcrud');
+$db = new mysqli('localhost', 'root', '', 'phpcrud');
 
 // $table = $db->query(
 //     'create table if not exists products(
@@ -27,5 +27,3 @@ $db= new mysqli('localhost', 'root', '', 'phpcrud');
 // ("Honey", 500.5);';
 
 // $db->query($products);
-
-?>
