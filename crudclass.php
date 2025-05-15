@@ -19,6 +19,8 @@ class CrudClass
                 $name = $_POST["name"];
                 $price = $_POST["price"];
                 $description = $_POST["description"];
+                $desc = str_ireplace("'", "\'", $description);
+
 
                 // $photo=$_FILES["photo"];
                 $photoName = $_FILES["photo"]["name"];
@@ -29,7 +31,7 @@ class CrudClass
 
                 move_uploaded_file($photoPath, "./img/" . $photoNamePath);
                 global $db;
-                $db->query("insert into products (name, price, description, photo)values('$name','$price','$description','$photoName');");
+                $db->query("insert into products (name, price, description, photo)values('$name','$price','$desc','$photoName');");
 
 
                 $message = "Product Added Successfully";
@@ -56,7 +58,40 @@ class CrudClass
         }
         return $message;
     }
-    public function update() {}
+    public function update()
+    {
+        if (isset($_POST["update"])) {
+            $id = $_POST["id"];
+            $name = $_POST["name"];
+            $price = $_POST["price"];
+
+            $description = $_POST["description"];
+            $desc = str_ireplace("'", "\'", $description);
+
+            // $photo= $_POST["photo"];
+            global $db;
+            if (!$_FILES["photo"]["name"]) {
+
+                $db->query("update products set name='$name', price='$price', description='$desc' where id=$id");
+                header("Location: index.php");
+            } else {
+                $photoName = $_FILES["photo"]["name"];
+                $photoNamePath = $_FILES["photo"]["full_path"];
+                $photoPath = $_FILES["photo"]["tmp_name"];
+
+                $db->query("update products set name='$name', price='$price', description='$desc', photo='$photoName' where id=$id");
+                move_uploaded_file($photoPath, "./img/" . $photoNamePath);
+                header("Location: index.php");
+            }
+        }
+
+        
+        return ;
+       
+    }
+
+
+
     public function delete()
     {
         if (isset($_POST["delete"])) {
@@ -66,5 +101,10 @@ class CrudClass
             $db->query("delete from products where id=$del_id");
         }
     }
-    public function find() {}
+    public function find($id)
+    {
+        global $db;
+        $products = $db->query("select * from products where id=$id");
+        return $products;
+    }
 }

@@ -5,7 +5,10 @@ include "./crudclass.php";
 $crudData = new CrudClass;
 
 $fetchData = $crudData->index();
-$delData = $crudData->delete();
+if (isset($_POST["delete"])) {
+    
+    $delData = $crudData->delete();
+}
 // echo "<pre/>";
 // print_r($fetchData);
 
@@ -52,24 +55,31 @@ $delData = $crudData->delete();
                     // echo "$data[price]<br/>";
 
                     $photo = $data["photo"];
-                    echo <<<fahim
+                    echo "
                 <tr>
                     <td>$data[id]</td> 
                     <td>$data[name]</td>
                     <td>$data[price]</td>
                     <td>$data[description]</td>
                     <td><img src='./img/$photo' alt='Image' height='40px' width='50px' style='border-radius:20%'></td>
-                    <td>
-                         <form method='post'>
-                         <input type='hidden' class='form-control' name='id' value='$data[id]'>  
-                            <div class='btn btn-group' role='group'>
-                                <button class='btn btn-group btn-success' >Edit</button>
-                                <button class='btn btn-group btn-danger' name='delete'>Delete</button>   
-                            </div>                    
+                    <td class='d-flex align-items-center justify-content-center'>
+                        <form method='post' action='update.php'>
+                                <input type='hidden' class='form-control' name='id' value='$data[id]'>  
+                                
+                                <button type='submit' class='btn btn-group btn-success' name='delete'>Edit</button>   
                         </form>
+                        
+                         <form method='post'>
+                            <input type='hidden' class='form-control' name='id' value='$data[id]'>  
+                             <div class='btn btn-group' role='group'>
+                               
+                                <button type='submit' class='btn btn-group btn-danger' name='delete'>Delete</button>   
+                            </div>                    
+                         </form>
+                             
                     </td>
                  </tr>
-                fahim;
+                ";
                 }
                 ?>
             </tbody>

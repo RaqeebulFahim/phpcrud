@@ -6,6 +6,12 @@ include("crudclass.php");
 $createData = new CrudClass();
 $message = $createData->create();;
 
+// echo $_POST["id"];
+$product=$createData->find($_POST["id"])->fetch_assoc();
+
+$message=$createData->update();
+
+
 ?>
 
 
@@ -44,24 +50,28 @@ $message = $createData->create();;
 
                     <div class="form-group m-2">
                         <!-- <label for="exampleInputEmail1">Email address</label> -->
-                        <input type="text" class="form-control" name="name" placeholder="Enter Product Name" required>
+                        <input type="hidden" class="form-control" name="id" placeholder="Enter Product Name" value="<?php echo $product["id"];?>" required>
+                        <input type="text" class="form-control" name="name" placeholder="Enter Product Name" value="<?php echo $product["name"];?>" required>
                     </div>
                     <div class="form-group m-2">
-                        <input type="number" class="form-control" name="price" placeholder="Input Product Price">
+                        <input type="number" class="form-control" name="price" value="<?php echo $product["price"];?>" placeholder="Input Product Price">
                     </div>
                     <div class="form-group m-2">
-                        <input type="text" class="form-control" name="description" placeholder="Input Product Description">
+                        <input type="text" class="form-control" name="description" value="<?php echo $product["description"];?>" placeholder="Input Product Description">
                     </div>
                     <div class="form-group m-2">
-                        <input type="file" class="form-control" name="photo" placeholder="Input Product Photo">
+                        <input type="file" class="form-control" name="photo" value="<?php echo $product["photo"];?>" placeholder="Input Product Photo">
+                        <img src='./img/<?php echo $product["photo"];?>' alt='Image' height='90px' width='90px' style='border-radius:20%'>
                     </div>
 
-                    <input type="submit" name="submit" class="btn btn-info">
+                    <input type="submit" name="update" class="btn btn-info">
                 </fieldset>
             </form>
         </div>
 
     </div>
+ 
+ 
 
 
     <!-- jQuery -->
